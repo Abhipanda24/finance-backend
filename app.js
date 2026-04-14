@@ -1,25 +1,14 @@
-const express = require("express");
-const mongoose = require("mongoose");
+from flask import Flask, jsonify
 
-const app = express();
+app = Flask(__name__)
 
-// Middleware
-app.use(express.json());
+@app.route('/')
+def home():
+    return jsonify({"message": "Finance Backend Running"})
 
-// Routes
-const userRoutes = require("./routes/userRoutes");
-app.use("/api/users", userRoutes);
+@app.route('/test')
+def test():
+    return jsonify({"status": "API working"})
 
-// ✅ MongoDB Atlas connection (FIXED PASSWORD)
-mongoose.connect("mongodb://abhipanda2004:Abhinav%40123@ac-p4gyzb8-shard-00-00.pihe32m.mongodb.net:27017,ac-p4gyzb8-shard-00-01.pihe32m.mongodb.net:27017,ac-p4gyzb8-shard-00-02.pihe32m.mongodb.net:27017/financeDB?ssl=true&replicaSet=atlas-c2cndv-shard-0&authSource=admin&retryWrites=true&w=majority")
-.then(() => console.log("DB connected"))
-.catch(err => console.log(err));
-// Test route
-app.get("/", (req, res) => {
-    res.send("Server is working");
-});
-
-// Server start
-app.listen(5000, () => {
-    console.log("Server running on port 5000");
-});
+if __name__ == '__main__':
+    app.run(debug=True)
